@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= pagetitle %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="NavBar">
+        <h1>
+            <%= pagetitle %>
+        </h1>
+        <a class="NavBarLink" href="/">Home</a>
+        <a class="NavBarLink" href="/categories">Categories</a>
+        <a class="NavBarLink" href="/products">Products</a>
+        <input placeholder="Search product" />
+    </div>
+    <!-- NAVIGATION BAR -->
+
+    <!-- PAGE CONTENT -->
+    <h1> You have <%= productCount %> products in your inventory: </h1>
+    <ul>
+        <% allProductsArr.forEach(item=> { %>
+            <li>
+                <%= item.name %> (<%= item.numberInStock %>)
+            </li>
+            <% }); %>
+    </ul>
+    <br/>
+    <button>Add new product</button>
+    <!-- PAGE CONTENT -->
+
+
+
+
+
+
+</body>
+
+</html>

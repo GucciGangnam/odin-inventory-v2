@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= pagetitle %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  <!-- NAVIGATION BAR -->
+    <div class="NavBar">
+      <h1><%= pagetitle %> </h1>
+      <a class="NavBarLink" href="/">Home</a>
+      <a class="NavBarLink" href="/categories">Categories</a>
+      <a class="NavBarLink" href="/products">Products</a>
+      <input placeholder="Search product"/>
+    </div>
+  <!-- NAVIGATION BAR -->
+  <!-- PAGE CONTENT -->
+    <h1> The Odin Inventory </h1>
+    <br/>
+    <p>Your inventory currently contains:</p>
+    <p>Categories: <strong><%= numCategories %></strong></p>
+    <p>Products: <strong><%= numProducts %></strong></p>
+    <p>Items: <strong><%= numItems %></strong></p>
+    <br/>
+    <p>The combined market value of your inventory is: <strong><%= TotalValueOfAllProducts %></strong></p>
+    <br/>
+    <p>There are <strong>xx</strong> products nearing their expory date.</p>
+    <p>List here</p>
+    <p>There are <strong>xx</strong> products past their expory date.</p>
+    <p>List here</p>
+  <!-- PAGE CONTENT -->
+
+
+
+
+
+
+  </body>
+</html>

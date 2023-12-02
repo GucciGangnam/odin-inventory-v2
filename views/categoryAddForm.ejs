@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= pagetitle %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="NavBar">
+        <h1>
+            <%= pagetitle %>
+        </h1>
+        <a class="NavBarLink" href="/">Home</a>
+        <a class="NavBarLink" href="/categories">Categories</a>
+        <a class="NavBarLink" href="/products">Products</a>
+        <input placeholder="Search product" />
+    </div>
+    <!-- NAVIGATION BAR -->
+    <!-- PAGE CONTENT -->
+    
+    <h1>Use this form to add a new category</h1>
+
+    <form method="POST" action="">
+        <label for="name">Name of the new category</label>
+        <br />
+        <input type="text" required="true" placeholder="Name" name="name" />
+        <br />
+        <br />
+        <label for="description">A brief description of the category</label>
+        <br />
+        <input type="text" required="true" placeholder="description" name="description" />
+        <br />
+        <br />
+        <button class="button-link" type="submit">Add</button>
+    </form>
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+        <p>
+            ERROR POSTING FORM!
+        </p>
+        <ul>
+            <% errors.forEach(error => { %>
+                <li><%= JSON.stringify(error.msg) %></li>
+            <% }); %>
+        </ul>
+    <% } %>
+
+    <!-- PAGE CONTENT -->
+
+</body>
+
+</html>
