@@ -17,17 +17,17 @@ const { body, validationResult } = require("express-validator");
 exports.index = asyncHandler(async (req, res, next) => {
     const categoryCount = await Categories.countDocuments({}).exec();
     const allCategories = await Categories.find({}).exec();
-    res.render("categoriesIndex", { 
+    res.render("categoriesIndex", {
         allCategories: allCategories,
         categoryCount: categoryCount,
-        pagetitle : "Categories"
+        pagetitle: "Categories"
     })
 });
 
 //ADD NEW CATEGORY //
 // add new category form 
-exports.add_new_category_get = asyncHandler(async(req, res, next) => { 
-    res.render("categoryAddForm", { 
+exports.add_new_category_get = asyncHandler(async (req, res, next) => {
+    res.render("categoryAddForm", {
         pagetitle: "New Category"
     });
 })
@@ -36,7 +36,7 @@ exports.add_new_category_post = [
     // validate and sanitise the inputs 
     body("name")
         .trim()
-        .isLength({min:1})
+        .isLength({ min: 1 })
         .withMessage("Must have a name")
         .customSanitizer(value => {
             // Capitalize the first letter
@@ -44,25 +44,26 @@ exports.add_new_category_post = [
         }),
     body("description")
         .trim()
-        .isLength({min:1})
+        .isLength({ min: 1 })
         .withMessage("Must have a description")
         .customSanitizer(value => {
             // Capitalize the first letter
             return value.charAt(0).toUpperCase() + value.slice(1);
         }),
-    asyncHandler(async(req, res, next) => { 
+    asyncHandler(async (req, res, next) => {
         // get list of existing categories 
-        const existingCategories = await Categories.find({name: req.body.name}).exec();
+        const existingCategories = await Categories.find({ name: req.body.name }).exec();
         console.log(existingCategories)
-        if (existingCategories.length !== 0){
-            let errors = [{msg: "This category already exists"}]
-        res.render("categoryAddForm", { 
-            pagetitle: "New Category",
-            errors: errors});
+        if (existingCategories.length !== 0) {
+            let errors = [{ msg: "This category already exists" }]
+            res.render("categoryAddForm", {
+                pagetitle: "New Category",
+                errors: errors
+            });
             return;
         }
         const errors = validationResult(req);
-        const URL = req.body.name.toLowerCase().replace(/ /g, "");
+        const URL = req.body.name.replace(/\s/g, '-').toLowerCase();
         const newCategory = new Categories({
             name: req.body.name,
             description: req.body.description,
@@ -70,9 +71,10 @@ exports.add_new_category_post = [
         });
         // Data isnt valid
         if (!errors.isEmpty()) {
-            res.render("categoryAddForm", { 
+            res.render("categoryAddForm", {
                 pagetitle: "New Category",
-                errors: errors.array() });
+                errors: errors.array()
+            });
             console.log(errors);
             return;
         } else {
@@ -86,16 +88,27 @@ exports.add_new_category_post = [
 ]
 
 // VIEW CATEGORY //
-exports.view_category_get = asyncHandler(async(req, res, next) => { 
-    const category = await Categories.find({url: "categories/" + req.params.id})
+exports.view_category_get = asyncHandler(async (req, res, next) => {
+    console.log("params are" + req.params.id)
+    const category = await Categories.find({ url: "categories/" + req.params.id })
+    const noAmpCategory = req.params.id.replace(/-/g, ' ').charAt(0).toUpperCase() + req.params.id.slice(1);
+    console.log("searching for " + noAmpCategory)
+    const productsInCategory = await Products.find({category: noAmpCategory})
+    const numProductsInCategory = productsInCategory.length
+
+
+
+
     // if categiry doesnt exists 
-    if (category.length == 0){ 
+    if (category.length == 0) {
         res.status(404).send('This URL Does Not Exists');
-    } else { 
-        res.render("categoryView", { 
+    } else {
+        res.render("categoryView", {
             pagetitle: category[0].name,
             categoryName: category[0].name,
             categoryDescription: category[0].description,
+            productsInCategory: productsInCategory,
+            numProductsInCategory: numProductsInCategory,
         })
     }
 })

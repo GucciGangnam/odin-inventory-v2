@@ -12,7 +12,7 @@
     <!-- NAVIGATION BAR -->
     <div class="NavBar">
         <h1>
-            <%= pagetitle %>
+            Categories
         </h1>
         <a class="NavBarLink" href="/">Home</a>
         <a class="NavBarLink" href="/categories">Categories</a>
@@ -24,6 +24,19 @@
     <!-- PAGE CONTENT -->
 <h1> <%= categoryName %></h1>
 <h1> <%= categoryDescription %></h1>
+<br/>
+<p>
+    There are <%= numProductsInCategory %> products in this category:
+</p>
+<ul>
+    <% productsInCategory.forEach(item=> { %>
+        <li>
+            <a href="<%= item.url %>"><%= item.name %></a>
+            
+        </li>
+        <% }); %>
+</ul>
+
     <!-- PAGE CONTENT -->
 
 
