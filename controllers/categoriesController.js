@@ -1,5 +1,6 @@
 // Imports 
 // import schemes 
+const category = require("../models/category");
 const Categories = require("../models/category");
 const Products = require("../models/product");
 
@@ -11,8 +12,6 @@ const { body, validationResult } = require("express-validator");
 
 
 // CATEGORIES INDEX CONTROLLER //
-
-
 // index
 exports.index = asyncHandler(async (req, res, next) => {
     const categoryCount = await Categories.countDocuments({}).exec();
@@ -38,6 +37,12 @@ exports.add_new_category_post = [
         .trim()
         .isLength({ min: 1 })
         .withMessage("Must have a name")
+        .custom(value => {
+            if (value.includes("-")) {
+                throw new Error("Name cannot contain '-'");
+            }
+            return true;
+        })
         .customSanitizer(value => {
             // Capitalize the first letter
             return value.charAt(0).toUpperCase() + value.slice(1);
@@ -87,18 +92,14 @@ exports.add_new_category_post = [
     })
 ]
 
-// VIEW CATEGORY //
+// VIEW SPESIFIC CATEGORY //
 exports.view_category_get = asyncHandler(async (req, res, next) => {
     console.log("params are" + req.params.id)
     const category = await Categories.find({ url: "categories/" + req.params.id })
     const noAmpCategory = req.params.id.replace(/-/g, ' ').charAt(0).toUpperCase() + req.params.id.slice(1);
     console.log("searching for " + noAmpCategory)
-    const productsInCategory = await Products.find({category: noAmpCategory})
+    const productsInCategory = await Products.find({ category: noAmpCategory })
     const numProductsInCategory = productsInCategory.length
-
-
-
-
     // if categiry doesnt exists 
     if (category.length == 0) {
         res.status(404).send('This URL Does Not Exists');
@@ -112,3 +113,46 @@ exports.view_category_get = asyncHandler(async (req, res, next) => {
         })
     }
 })
+
+
+exports.edit_category_get = asyncHandler(async (req, res, next) => {
+    //Find current category info 
+    const currentCategory = await Categories.find({ name: req.params.id })
+    // If it cant be foudn then tell the user
+    if (currentCategory.length == 0) {
+        res.status(404).send('This URL Does Not Exists');
+    } else {
+        res.render("categoryEdit", {
+            category: req.params.id,
+            currentname: currentCategory[0].name,
+            currentDescription: currentCategory[0].description
+        }
+        )
+    }
+})
+
+exports.edit_category_post =[
+    body('name')
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Must have a name")
+        .custom(value => {
+            if (value.includes("-")) {
+                throw new Error("Name cannot contain '-'");
+            }
+            return true;
+        })
+        .customSanitizer(value => {
+            // Capitalize the first letter
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        }),
+    body("description")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Must have a description")
+        .customSanitizer(value => {
+            // Capitalize the first letter
+            return value.charAt(0).toUpperCase() + value.slice(1);
+        }),
+    
+]

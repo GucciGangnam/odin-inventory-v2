@@ -16,6 +16,7 @@ a {
 }
 
 .button-link {
+  margin: 10px;
   display: inline-block;
   padding: 10px 20px;
   text-align: center;

@@ -3,7 +3,7 @@
 
 <head>
     <title>
-        <%= pagetitle %>
+        Categories
     </title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
@@ -22,25 +22,20 @@
     <!-- NAVIGATION BAR -->
 
     <!-- PAGE CONTENT -->
-<h1> <%= categoryName %></h1>
-<h1> <%= categoryDescription %></h1>
-<br/>
-<p>
-    There are <%= numProductsInCategory %> products in this category:
-</p>
-<ul>
-    <% productsInCategory.forEach(item=> { %>
-        <li>
-            <a href="<%= item.url %>"><%= item.name %></a>
-            
-        </li>
-        <% }); %>
-</ul>
-
-<a class="button-link" href="<%= categoryName %>/edit"> Edit Category </a>
-<br/>
-<a class="button-link" href="www.example.com"> Delete Category </a>
-
+    <h2> Edit the <%= category %> category here</h2>
+    <form method="POST" action="">
+        <label for="name"> Name: </label>
+        <br />
+        <input name="name" type="text" value="<%= currentname %>" />
+        <br />
+        <br />
+        <label for="description">Description:</label>
+        <br />
+        <input name="description" type="text" value="<%= currentDescription %>" />
+        <br/>
+        <br/>
+        <button class="button-link" type="submit">Update</button>
+    </form>
     <!-- PAGE CONTENT -->
 
 

@@ -16,8 +16,14 @@ router.get('/new', category_controller.add_new_category_get);
 // POST new category form 
 router.post('/new', category_controller.add_new_category_post);
 
-// Individual categry (via id)
-router.get("/:id", category_controller.view_category_get)
+// Edit category info
+router.get("/:id/edit", category_controller.edit_category_get);
+router.post("/:id/edit", category_controller.edit_category_post);
+
+// View Individual categry (via id)
+router.get("/:id", category_controller.view_category_get);
+
+
 
 
 
