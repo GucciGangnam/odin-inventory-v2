@@ -131,8 +131,9 @@ exports.edit_category_get = asyncHandler(async (req, res, next) => {
     }
 })
 
-exports.edit_category_post =[
+exports.edit_category_post = [
     body('name')
+        .optional()
         .trim()
         .isLength({ min: 1 })
         .withMessage("Must have a name")
@@ -147,6 +148,7 @@ exports.edit_category_post =[
             return value.charAt(0).toUpperCase() + value.slice(1);
         }),
     body("description")
+        .optional()
         .trim()
         .isLength({ min: 1 })
         .withMessage("Must have a description")
@@ -154,5 +156,73 @@ exports.edit_category_post =[
             // Capitalize the first letter
             return value.charAt(0).toUpperCase() + value.slice(1);
         }),
-    
+    // set updated Categry 
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+        const currentCategory = await Categories.find({ name: req.params.id })
+        if (!errors.isEmpty()) {
+            console.log(errors)
+            res.render("categoryEdit", {
+                errors: errors.array(),
+                category: req.params.id,
+                currentname: currentCategory[0].name,
+                currentDescription: currentCategory[0].description
+            })
+            return;
+        } else {
+            const updatedCategory = {
+                name: req.body.name,
+                description: req.body.description,
+                URL: "categories/" + req.body.name.replace(/\s/g, '-')
+            }
+            console.log(req.params.id)
+            console.log(updatedCategory)
+            // If category name HASN'T changed then update the description ONLY. . 
+            if (updatedCategory.name == req.params.id) {
+                // Update a document
+                await Categories.updateOne(
+                    { name: req.params.id },
+                    { $set: { description: updatedCategory.description } },
+                );
+                res.redirect("/categories")
+                return;
+            }
+            // If category name HAS changed then update the name AND description 
+            if (updatedCategory.name !== req.params.id) {
+                // make sure the new categry name doesnt already exists
+                const potentialJoop = await Categories.findOne({ name: updatedCategory.name })
+                if (potentialJoop === null) {
+                    /////Update the original category 
+                    await Categories.updateOne(
+                        { name: req.params.id },
+                        {
+                            $set:
+                            {
+                                name: updatedCategory.name,
+                                description: updatedCategory.description,
+                                url: updatedCategory.URL
+                            }
+                        },
+                    );
+                    /////Update the products with original category 
+                    await Products.updateMany(
+                        { category: req.params.id },
+                        { $set: { category: updatedCategory.name } },
+                    )
+                    res.redirect("/categories")
+                    return;
+                } else {
+                    ////////////////////Already exists  THROW ERR
+                    res.render("categoryEdit", {
+                        errors: [{ msg: "This category name already exists" }],
+                        category: req.params.id,
+                        currentname: currentCategory[0].name,
+                        currentDescription: currentCategory[0].description
+                    })
+                    return;
+                }
+            }
+        }
+    })
 ]
