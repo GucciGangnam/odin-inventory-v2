@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Categories
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="NavBar">
+        <h1>
+            Categories
+        </h1>
+        <a class="NavBarLink" href="/">Home</a>
+        <a class="NavBarLink" href="/categories">Categories</a>
+        <a class="NavBarLink" href="/products">Products</a>
+        <input placeholder="Search product" />
+    </div>
+    <!-- NAVIGATION BAR -->
+
+    <!-- PAGE CONTENT -->
+
+    <h2> WARNING: Deleting this category will delte ALL PRODUCTS in this category: </h2>
+
+    <% if (prodsInCat.length > 0){ %>
+        <ul>
+            <% prodsInCat.forEach(prod => { %>
+            <li><%= JSON.stringify(prod.name) %></li>
+        <%}) %>
+        </ul>
+    <%} else {%>
+        <p>Actually, in this case, there are no products in this category.  But, you should still know</p>
+
+        <%}%>
+
+
+    <form method="POST" action="">
+        <button type="submit" class="button-link">Delete</button>
+    </form>
+    <button class="button-link">Back</button>
+
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+        <p>
+            ERROR POSTING FORM!
+        </p>
+        <ul>
+            <% errors.forEach(error => { %>
+                <li><%= JSON.stringify(error.msg) %></li>
+            <% }); %>
+        </ul>
+    <% } %>
+    <!-- PAGE CONTENT -->
+
+
+
+
+
+
+</body>
+
+</html>

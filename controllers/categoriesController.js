@@ -226,3 +226,19 @@ exports.edit_category_post = [
         }
     })
 ]
+
+///////////// DELETE CATEGORY ////////////////
+
+exports.delete_category_get = asyncHandler(async(req, res, next) => { 
+    // Get array of all products in category 
+    const prodsInCat = await Products.find({category: req.params.id})
+    console.log(prodsInCat)
+    console.log(req.params.id)
+    res.render("categoryDelete", {category: req.params.id, prodsInCat: prodsInCat})
+})
+
+exports.delete_category_post = asyncHandler(async(req, res, next) => { 
+    await Products.deleteMany({category: req.params.id})
+    await Categories.deleteOne({name: req.params.id})
+    res.redirect("/categories")
+})

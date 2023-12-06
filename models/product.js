@@ -22,10 +22,10 @@ const productsSchema = new Schema({
         type: Number,
         required: true,
     },
-    // expiryDate: {
-    //     type: Date,
-    //     required: true,
-    // },
+    expiryDate: {
+        type: Date,
+        required: true,
+    },
     url: {
         type: String,
         required: true,

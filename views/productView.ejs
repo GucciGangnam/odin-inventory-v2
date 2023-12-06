@@ -3,7 +3,7 @@
 
 <head>
     <title>
-        <%= pagetitle %>
+        Add product
     </title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
@@ -12,7 +12,7 @@
     <!-- NAVIGATION BAR -->
     <div class="NavBar">
         <h1>
-            Categories
+            Products
         </h1>
         <a class="NavBarLink" href="/">Home</a>
         <a class="NavBarLink" href="/categories">Categories</a>
@@ -21,25 +21,18 @@
     </div>
     <!-- NAVIGATION BAR -->
 
+    <h1> <%= product.name %> </h1>
+    <h3> <%= product.description %> </h3>
+    <h3> <%= product.category %> </h3>
+    <h3> <%= product.price %> </h3>
+    <h3> <%= product.numberInStock %> </h3>
+    <h3> <%= product.expiryDate %> </h3>
     <!-- PAGE CONTENT -->
-<h1> <%= categoryName %></h1>
-<h1> <%= categoryDescription %></h1>
-<br/>
-<p>
-    There are <%= numProductsInCategory %> products in this category:
-</p>
-<ul>
-    <% productsInCategory.forEach(item=> { %>
-        <li>
-            <a href="<%= item.url %>"><%= item.name %></a>
-            
-        </li>
-        <% }); %>
-</ul>
 
-<a class="button-link" href="<%= categoryName %>/edit"> Edit Category </a>
-<br/>
-<a class="button-link" href="<%= categoryName %>/delete"> Delete Category </a>
+
+
+
+
 
     <!-- PAGE CONTENT -->
 

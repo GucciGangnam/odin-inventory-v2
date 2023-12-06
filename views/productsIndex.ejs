@@ -26,12 +26,13 @@
     <ul>
         <% allProductsArr.forEach(item=> { %>
             <li>
-                <%= item.name %> (<%= item.numberInStock %>)
+                <a href="<%= item.url %>"><%= item.name %> (<%= item.numberInStock %>) </a>
+                
             </li>
             <% }); %>
     </ul>
     <br/>
-    <button>Add new product</button>
+    <a href="products/new" class="button-link">Add new product</a>
     <!-- PAGE CONTENT -->
 
 
