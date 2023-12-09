@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Edit product
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!-- NAVIGATION BAR -->
+    <div class="NavBar">
+        <h1>
+            Products
+        </h1>
+        <a class="NavBarLink" href="/">Home</a>
+        <a class="NavBarLink" href="/categories">Categories</a>
+        <a class="NavBarLink" href="/products">Products</a>
+        <input placeholder="Search product" />
+    </div>
+    <!-- NAVIGATION BAR -->
+
+    <!-- PAGE CONTENT -->
+<h1> edit page for <%= originalProduct.name %> </h1>
+
+    <form method="POST" action="">
+        <label for="name">Name:</label>
+        <br />
+        <input type="text" name="name" value="<%= originalProduct.name %>" required="true" />
+        <br />
+        <br />
+        <lebal for="description">Description::</lebal>
+        <br />
+        <input type="text" name="description" value="<%= originalProduct.description %>" required="true" />
+        <br />
+        <br />
+        <label for="category">Category:</label>
+        <br />
+        <select name="category" required="true">
+            <% listOfCats.forEach(category=> { %>
+                <option value="<%= category.name %>">
+                    <%= category.name %>
+                </option>
+                <% }); %>
+        </select>
+        <br />
+        <br />
+        <label for="price">Price:</label>
+        <br />
+        <input type="text" name="price" value="<%= originalProduct.price %>" required="true" />
+        <br />
+        <br />
+        <label for="stock">Number in stock:</label>
+        <br />
+        <input type="number" name="stock" value="<%= originalProduct.numberInStock %>" required="true" />
+        <br />
+        <br />
+        <label for="sellBy">Sell by date:</label>
+        <br />
+        <input type="date" name="sellBy" value="<%= xDateString %>" required="true" />
+        <br/>
+        <br/>
+        <button type="submit" class="button-link"> Update </button>
+    </form>
+
+
+    <!-- PAGE CONTENT -->
+
+
+
+
+
+
+</body>

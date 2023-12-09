@@ -10,6 +10,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const validator = require('validator');
 const { isDate, isAfter } = require('validator');
+const category = require("../models/category");
 
 
 // CATEGORIES INDEX CONTROLLER //
@@ -70,7 +71,6 @@ exports.new_post = [
             const cats = await Categories.find({})
             const availableCats = []
             // cats.forEach((cat) => {availableCats.push(cat.category)})
-            console.log("yo momma");
             next();
         }),
     body('price')
@@ -123,4 +123,54 @@ exports.new_post = [
             return;
         }
     })
+]
+
+// delete product // 
+exports.delete = showDeletePage = (req, res, next) => { 
+    res.render("productDelete", {productName: req.params.id})
+}
+
+exports.delete_post = asyncHandler(async(req, res, next) => { 
+    await Products.deleteOne({name: req.params.id})
+    res.redirect("/products")
+})
+
+
+// edit product // 
+
+exports.edit_get = asyncHandler(async(req, res, next) => { 
+    // get the original products 
+    const originalProduct = await Products.findOne({name: req.params.id})
+    const listOfCats = await Categories.find({})
+    const xDateString = originalProduct.expiryDate.toISOString().slice(0, 10);
+    res.render("productEdit", { originalProduct: originalProduct, listOfCats: listOfCats, xDateString: xDateString})
+})
+
+exports.edit_post = [
+    
+    
+    asyncHandler(async(req, res, next) => { 
+    //save original product 
+    const originalProduct = await Products.find({name: req.params.id})
+    console.log(req.params.id)
+    // if data is valid
+    // if data i snot valid 
+        // save data 
+        const updatedProduct = {
+        name: req.body.name,
+        description: req.body.description,
+        category: req.body.category,
+        price: req.body.price,
+        numberInStock: req.body.stock,
+        expiryDate: req.body.sellBy
+        }
+        // await Products.updateOne({name: req.params.id}, {$set{ 
+        //     x
+        //     x
+        //     x
+        //     x
+        // }})
+
+    res.send("hello")
+})
 ]

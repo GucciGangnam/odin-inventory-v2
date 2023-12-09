@@ -3,7 +3,7 @@
 
 <head>
     <title>
-        Add product
+        Delete product
     </title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
@@ -21,20 +21,13 @@
     </div>
     <!-- NAVIGATION BAR -->
 
-    <h1> <%= product.name %> </h1>
-    <h3> <%= product.description %> </h3>
-    <h3> Category: <%= product.category %> </h3>
-    <h3> Price: <%= product.price %> </h3>
-    <h3> Stco Count: <%= product.numberInStock %> </h3>
-    <h3> Expiry Date: <%= product.expiryDate %> </h3>
-
-    <a class="button-link" href="<%= product.name %>/edit"> Edit </a>
-    <br/>
-    <a class="button-link" href="<%= product.name %>/delete"> Delete </a>
     <!-- PAGE CONTENT -->
+    <h1> Are you sure you want to delete <%= productName %> from your products?</h1>
 
-
-
+<form method="POST" action="">
+    <button class="button-link">Delete</button>
+</form>
+<a class="button-link" href="/products/<%= productName %>">Back</a>
 
 
 
@@ -46,5 +39,3 @@
 
 
 </body>
-
-</html>

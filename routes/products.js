@@ -19,9 +19,13 @@ router.post('/new', product_controller.new_post);
 router.get( '/:id', product_controller.view)
 
 //delete//
+router.get( '/:id/delete', product_controller.delete)
+router.post( '/:id/delete', product_controller.delete_post)
 
 //update//
+router.get('/:id/edit', product_controller.edit_get)
 
-//remove//
+router.post('/:id/edit', product_controller.edit_post)
+
 
 module.exports = router;
