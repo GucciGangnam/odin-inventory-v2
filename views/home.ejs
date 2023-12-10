@@ -24,10 +24,17 @@
     <br/>
     <p>The combined market value of your inventory is: <strong><%= TotalValueOfAllProducts %></strong></p>
     <br/>
-    <p>There are <strong>xx</strong> products nearing their expory date.</p>
-    <p>List here</p>
-    <p>There are <strong>xx</strong> products past their expory date.</p>
-    <p>List here</p>
+    <p>There are <strong><%= expiringSoon.length %> </strong> products within a week of their expory date.</p>
+    <% if (expiringSoon.length > 0) { %>
+      <ul>
+        <% expiringSoon.forEach(item=> { %>
+            <li>
+                <a href="<%= item.url %>"><%= item.name %> (<%= item.expiryDate %>)</a>
+                
+            </li>
+            <% }); %>
+    </ul>
+    <%}%>
   <!-- PAGE CONTENT -->
 
 
